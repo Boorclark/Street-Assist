@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gocolly/colly"
+)
 
 func main() {
-    fmt.Println("Hello, world.")
+    c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
+
+    c.OnHTML("")
+
+
+    c.Visit("https://www.homelessshelterdirectory.org/city/ky-lexington")
 }
