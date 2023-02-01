@@ -12,7 +12,7 @@ Street Assist is an application designed to assist the houseless population by p
 
 1. [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
 2. [Golang Documentation](https://go.dev/doc/)
-3.
+3. [Simple GoColly Tutorial](https://www.youtube.com/watch?v=bfVxq-oQA3c)
 4.
 
 ---
