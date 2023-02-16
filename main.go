@@ -7,12 +7,11 @@ import (
 )
 
 func main() {
-    c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
+	c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
 
-    c.OnHTML("a[href]", func (h *colly.HTMLElement)  {
-       fmt.Println(h.Text) 
-    })
+	c.OnHTML("div.layout_post_2.clearfix", func(h *colly.HTMLElement) {
+		fmt.Println(h.Text)
+	})
 
-
-    c.Visit("https://www.homelessshelterdirectory.org/city/ky-lexington")
+	c.Visit("https://www.homelessshelterdirectory.org/city/ky-lexington")
 }
