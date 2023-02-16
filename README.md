@@ -16,6 +16,7 @@ Street Assist is an application designed to assist the houseless population by p
 4. [Centering Content in Bootstrap](https://www.youtube.com/watch?v=nx8jyWLy0e0)
 5. [HTML Unicode (UTF-8) Reference](https://www.w3schools.com/charsets/ref_html_utf8.asp)
 6. [Bootstrap Spacing](https://getbootstrap.com/docs/4.0/utilities/spacing/)
+7. [Colly Functions](https://pkg.go.dev/github.com/gocolly/colly#section-readme)
 
 ---
 Berea College - CSC 420<br>
