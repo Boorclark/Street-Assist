@@ -13,6 +13,7 @@ type Shelter struct {
 	Image      string
 	Name       string
 	Description string
+	SeeMore string
 }
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
 			Image: h.ChildAttr("img", "src"),
 			Description:  h.ChildText("p"),
 			Name:    h.ChildText("h4"),
+			SeeMore: h.ChildAttr("a.btn_red", "href"),
 		}
 		// add the new shelter to the list of shelters
 		shelters = append(shelters, shelter)
