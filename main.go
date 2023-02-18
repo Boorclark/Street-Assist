@@ -1,9 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"html/template"
 	"log"
-	"os"
+	"net/http"
 
 	"github.com/gocolly/colly"
 )
@@ -33,16 +34,27 @@ func main() {
 	})
 
 	c.OnScraped(func(r *colly.Response) {
-		// use the "information.html" template to display the list of shelters
 		tmpl, err := template.ParseFiles("templates/information.html")
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = tmpl.Execute(os.Stdout, shelters)
+	
+		// Create a buffer to store the generated HTML
+		buf := new(bytes.Buffer)
+		err = tmpl.Execute(buf, shelters)
 		if err != nil {
 			log.Fatal(err)
 		}
+	
+		// Serve the generated HTML as the HTTP response
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			w.Write(buf.Bytes())
+		})
+	
+		// Start the HTTP server and listen for incoming requests
+		log.Fatal(http.ListenAndServe(":8080", nil))
 	})
+	
 
 	err := c.Visit("https://www.homelessshelterdirectory.org/city/ky-lexington")
 	if err != nil {
