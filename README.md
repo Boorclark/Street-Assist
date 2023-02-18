@@ -17,6 +17,11 @@ Street Assist is an application designed to assist the houseless population by p
 5. [HTML Unicode (UTF-8) Reference](https://www.w3schools.com/charsets/ref_html_utf8.asp)
 6. [Bootstrap Spacing](https://getbootstrap.com/docs/4.0/utilities/spacing/)
 7. [Colly Functions](https://pkg.go.dev/github.com/gocolly/colly#section-readme)
+8. [HTML Templating with Go](https://www.makeuseof.com/go-html-templating/)
+9. [Golang Buffers](https://www.educba.com/golang-buffer/)
+10. [Nil Golang](https://www.educative.io/answers/what-does-nil-mean-in-golang)
+11. [Short Declaration Operators](https://www.geeksforgeeks.org/difference-between-var-keyword-and-short-declaration-operator-in-golang/)
+12. [HTTP Go Package](https://pkg.go.dev/net/http)
 
 ---
 Berea College - CSC 420<br>
