@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-		<html>
-			<head>
-				<title>Scraped Data</title>
-			</head>
-			<body>
-				<h1>Scraped Data</h1>
-				<ul>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/1467__gdt.jpg  Transitional housing for women.Our ServicesAs a transitional sober living home, we offer:    Faith-based program &amp;nbs [...] The Lighthouse Ministries - Rachel House  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/17307_1649152642.jpg  Emergency Shelter for Men, Mental Health Program, Homeless Veterans Program, Street Outreach, Hope Mobile, Housing First, and Drug &amp; Alcohol-Free HousingThe Emergency Shelter ope [...] Hope Center for Men  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/1472__qoq.jpg  Transitional LivingThe Potter&#39;s House and The House of Hope are transitional homes that serve men who are homeless, completing recovery programs, or leaving incarceration who have at least 30 da [...] Lexington Rescue Mission  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/1478__oeh.jpg  Women and women with children substance abuse treatment shelter.Chrysalis House is a comprehensive long-term residential program that addresses the needs of each woman to achieve and susta [...] Chrysalis House  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/no_photo_9.jpg  MASH Services of the Bluegrass, Inc. provides safe alternatives for at-risk children, youth and their families through services and referrals that promote positive growth and development.  We envision [...] M.A.S.H. Services of the Bluegrass  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/2358__ksg.JPG  Open 24 hours a day/7 days a week. No one refused service. Three meals a day, showers, phone and mail service. [...] Catholic Action Center  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/3121__gxz.jpg  Hours of operation: Monday - Friday 8:30am - 3:30pm for homeless clients
-Open to other guests: Monday - Friday 9am-noon &amp; 1pm-3pm
-Transportation Services: Daily route begins at 10am  [...] New Life Day Center  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/17308__vfk.jpg  Emergency Shelter - Hanger Lodge for women and children. If all beds/rooms are full, residents will be accommodated on sleeper chairs or mattresses until beds/r [...] Salvation Army Shelter Lexington  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/17309_1622632045.jpg  Provides transitional housing, job training, job search assistance and referrals to other service providers for veterans incarcerated or recently released. [...] Volunteers of America Transitional Housing Program  See more details}</li>
-					
-					<li>{https://www.homelessshelterdirectory.org/gallery/15714__otz.jpg  Elizabeth&#39;s Transitional HomeElizabeth&#39;s Transitional Home opened its doors in January of 2013 with a mission to serve as a transitional home for single women and women with minor children [...] Elizabeth&#39;s Village  See more details}</li>
-					
-				</ul>
-			</body>
-		</html>
+<html>
+	<head>
+		<title>Scraped Data</title>
+		<!--Bootstrap CSS-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Scraped Data</h1>
+			{{range .}}
+			<div class="card">
+				<img src="{{.Image}}" class="card-img-top">
+				<div class="card-body">
+					<h4>{{.Name}}</h4>
+					<p class="card-text">{{.Description}}</p>
+					<a href="" class="btn btn-primary">See more details</a>
+				</div>
+			</div>
+			{{end}}
+		</div>
+		<!--Bootstrap JS-->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	</body>
+</html>
+
+
+
+

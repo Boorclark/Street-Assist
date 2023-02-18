@@ -10,10 +10,9 @@ import (
 )
 
 type Shelter struct {
-	ImageURL string
-	Name     string
-	Address  string
-	Phone    string
+	Image      string
+	Name       string
+	Description string
 }
 
 func main() {
@@ -24,10 +23,9 @@ func main() {
 	c.OnHTML("div.layout_post_2", func(h *colly.HTMLElement) {
 		// create a new Shelter struct and set its fields based on the scraped data
 		shelter := Shelter{
-			ImageURL: h.ChildAttr("img", "src"),
-			Name:     h.ChildText("h3"),
-			Address:  h.ChildText("p"),
-			Phone:    h.ChildText("a"),
+			Image: h.ChildAttr("img", "src"),
+			Description:  h.ChildText("p"),
+			Name:    h.ChildText("h4"),
 		}
 		// add the new shelter to the list of shelters
 		shelters = append(shelters, shelter)
