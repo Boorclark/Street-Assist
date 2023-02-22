@@ -23,6 +23,7 @@ Street Assist is an application designed to assist the houseless population by p
 11. [Short Declaration Operators](https://www.geeksforgeeks.org/difference-between-var-keyword-and-short-declaration-operator-in-golang/)
 12. [HTTP Go Package](https://pkg.go.dev/net/http)
 13. [Bootstrap CSS](https://getbootstrap.com/docs/3.4/css/)
+13. [Bootstrap Script/Link Tags](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
 
 ---
 Berea College - CSC 420<br>
