@@ -2,9 +2,11 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gocolly/colly"
 )
@@ -18,7 +20,9 @@ type Shelter struct {
 
 func main() {
 	c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
-
+	state := os.Args[1]
+    city := os.Args[2]
+    url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
 	var shelters []Shelter
 
 	c.OnHTML("div.layout_post_2", func(h *colly.HTMLElement) {
@@ -56,7 +60,7 @@ func main() {
 	})
 	
 
-	err := c.Visit("https://www.homelessshelterdirectory.org/city/ky-lexington")
+	err := c.Visit(url)
 	if err != nil {
 		log.Fatal(err)
 	}
