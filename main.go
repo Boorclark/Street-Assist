@@ -18,7 +18,7 @@ type Shelter struct {
 	SeeMore string
 }
 
-func main() {
+func informationParser() {
 	c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
 	state := os.Args[1]
     city := os.Args[2]
@@ -64,4 +64,21 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		tmpl, err := template.ParseFiles("templates/home.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		if err := tmpl.Execute(w, nil); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
