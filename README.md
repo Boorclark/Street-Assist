@@ -28,6 +28,7 @@ Street Assist is an application designed to assist the houseless population by p
 15. [OS Package](https://pkg.go.dev/os)
 16. [FMT Package](https://pkg.go.dev/fmt)
 17. [Serving Files/HTTP Servers](https://medium.com/rungo/beginners-guide-to-serving-files-using-http-servers-in-go-4e542e628eac)
+18. [Understanding StripPrefix()](https://forum.golangbridge.org/t/need-help-about-http-fileserver-http-dir-http-stripprefix/24448)
 
 ---
 Berea College - CSC 420<br>

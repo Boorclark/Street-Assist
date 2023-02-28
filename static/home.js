@@ -8,7 +8,7 @@ $(document).ready(function(){
       var state = $("#stateDropdown .dropdown-item.active").data("value");
       var city = $("#cityInput").val();
       $.ajax({
-        url: "main.go",
+        url: "/",
         type: "POST",
         data: {state: state, city: city},
         success: function(response) {
