@@ -27,6 +27,7 @@ Street Assist is an application designed to assist the houseless population by p
 14. [jQuery Script Tags](https://www.w3schools.com/jquery/jquery_get_started.asp)
 15. [OS Package](https://pkg.go.dev/os)
 16. [FMT Package](https://pkg.go.dev/fmt)
+17. [Serving Files/HTTP Servers](https://medium.com/rungo/beginners-guide-to-serving-files-using-http-servers-in-go-4e542e628eac)
 
 ---
 Berea College - CSC 420<br>
