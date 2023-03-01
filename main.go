@@ -68,22 +68,29 @@ func informationPage () {
 
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	  if r.Method == "POST" {
-		http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
-		return
-	  }
-	  http.ServeFile(w, r, "./templates/home.html")
-	})
-  
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-  
-	http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
-	  http.ServeFile(w, r, "./templates/resources.html")
-	})
-  
-	log.Fatal(http.ListenAndServe(":8080", nil))
-  }
-  
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == "POST" {
+            http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
+            return
+        }
+        http.ServeFile(w, r, "./templates/home.html")
+    })
 
+    fs := http.FileServer(http.Dir("static"))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+    http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./templates/resources.html")
+    })
+
+    http.HandleFunc("/information", func(w http.ResponseWriter, r *http.Request) {
+        informationPage()
+        http.Redirect(w, r, "/information.html", http.StatusSeeOther)
+    })
+
+    http.HandleFunc("/information.html", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./templates/information.html")
+    })
+
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
