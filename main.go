@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"html/template"
 	"log"
@@ -23,6 +24,11 @@ func informationPage(w http.ResponseWriter, r *http.Request) {
 	url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
 	fmt.Println("State:", state)
 	fmt.Println("City:", city)
+
+	// Create a new buffered writer
+	buf := bufio.NewWriter(w)
+	defer buf.Flush()
+
 	// Create a new Collector
 	c := colly.NewCollector(
 		colly.AllowedDomains("www.homelessshelterdirectory.org"),
@@ -55,8 +61,8 @@ func informationPage(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
-		// Generate the HTML and write it to the response
-		if err := tmpl.Execute(w, shelters); err != nil {
+		// Generate the HTML and write it to the buffered writer
+		if err := tmpl.Execute(buf, shelters); err != nil {
 			log.Fatal(err)
 		}
 	})
