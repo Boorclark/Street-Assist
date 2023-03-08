@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gocolly/colly"
 )
@@ -18,79 +16,75 @@ type Shelter struct {
 	SeeMore string
 }
 
-func informationPage () {
-	c := colly.NewCollector(colly.AllowedDomains("www.homelessshelterdirectory.org"))
-	state := os.Args[1]
-    city := os.Args[2]
-    url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
-	var shelters []Shelter
+var shelters []Shelter
+func informationPage(w http.ResponseWriter, r *http.Request) {
+	state := r.FormValue("state")
+	city := r.FormValue("city")
+	url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
+	fmt.Println("State:", state)
+	fmt.Println("City:", city)
+	// Create a new Collector
+	c := colly.NewCollector(
+		colly.AllowedDomains("www.homelessshelterdirectory.org"),
+	)
 
-	c.OnHTML("div.layout_post_2", func(h *colly.HTMLElement) {
-		// create a new Shelter struct and set its fields based on the scraped data
+	// OnHTML callback for each shelter
+	c.OnHTML("div.layout_post_2", func(e *colly.HTMLElement) {
+		// Create a new Shelter instance and set its fields
 		shelter := Shelter{
-			Image: h.ChildAttr("img", "src"),
-			Description:  h.ChildText("p"),
-			Name:    h.ChildText("h4"),
-			SeeMore: h.ChildAttr("a.btn_red", "href"),
+			Image:       e.ChildAttr("img", "src"),
+			Name:        e.ChildText("h4"),
+			Description: e.ChildText("p"),
+			SeeMore:     e.ChildAttr("a.btn_red", "href"),
 		}
-		// add the new shelter to the list of shelters
+
+		// Append the Shelter to the list
 		shelters = append(shelters, shelter)
 	})
 
-	c.OnScraped(func(r *colly.Response) {
+	// OnError callback to handle errors
+	c.OnError(func(_ *colly.Response, err error) {
+		log.Printf("Error scraping: %s", err.Error())
+	})
+
+	// OnScraped callback to execute once the scraping is done
+	c.OnScraped(func(_ *colly.Response) {
+		// Parse the information template
 		tmpl, err := template.ParseFiles("templates/information.html")
 		if err != nil {
 			log.Fatal(err)
 		}
-	
-		// Create a buffer to store the generated HTML
-		buf := new(bytes.Buffer)
-		err = tmpl.Execute(buf, shelters)
-		if err != nil {
+
+		// Generate the HTML and write it to the response
+		if err := tmpl.Execute(w, shelters); err != nil {
 			log.Fatal(err)
 		}
-	
-		// Serve the generated HTML as the HTTP response
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write(buf.Bytes())
-		})
-	
-		// Start the HTTP server and listen for incoming requests
-		log.Fatal(http.ListenAndServe(":8080", nil))
 	})
-	
 
-	err := c.Visit(url)
-	if err != nil {
-		log.Fatal(err)
+	// Start the scraping process
+	if err := c.Visit(url); err != nil {
+		log.Printf("Error visiting %s: %s", url, err.Error())
 	}
 }
 
 
 func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        if r.Method == "POST" {
-            http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
-            return
-        }
-        http.ServeFile(w, r, "./templates/home.html")
-    })
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
+			return
+		}
+		http.ServeFile(w, r, "./templates/home.html")
+	})
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-    fs := http.FileServer(http.Dir("static"))
-    http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./templates/resources.html")
+	})
 
-    http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/resources.html")
-    })
+	http.HandleFunc("/information.html", informationPage)
 
-    http.HandleFunc("/information", func(w http.ResponseWriter, r *http.Request) {
-        informationPage()
-        http.Redirect(w, r, "/information.html", http.StatusSeeOther)
-    })
-
-    http.HandleFunc("/information.html", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./templates/information.html")
-    })
-
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
+
