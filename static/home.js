@@ -5,22 +5,23 @@ $(document).ready(function(){
     $('#stateDropdownButton').text($(this).text());
   });
 
+  all_urls = "/information/shelters", "/information/food"
   $("#submitButton").click(function(event) {
-      //event.preventDefault();
-      var state = $(".dropdown-menu .dropdown-item.active").data("value");
-      var city = $("#cityInput").val();
-      $.ajax({
-        url: "/information.html",
-        type: "POST",
-        data: {"state": state, "city": city},
-        success: function(response) {
-          // handle successful response
-          $("#shelterList").html(response);
-        },
-        error: function(xhr, status, error) {
-          // handle error response
-        }
-      });
+    //event.preventDefault();
+    var state = $(".dropdown-menu .dropdown-item.active").data("value");
+    var city = $("#cityInput").val();
+    $.ajax({
+      url: all_urls,
+      type: "POST",
+      data: {"state": state, "city": city},
+      success: function(response) {
+        window.location.href = "resources.html";
+      },
+      error: function(xhr, status, error) {
+        // handle error response
+      }
     });
+  });
+  
 
 });
