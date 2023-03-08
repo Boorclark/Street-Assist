@@ -26,15 +26,16 @@ type FoodPantry struct {
 
 var shelters []Shelter
 var foodPantries []FoodPantry
-func resourcesPage(w http.ResponseWriter, r *http.Request) {
+var (
+	state string
+	city  string
+)
+
+func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city string) {
 	path := r.URL.Path
-	state := r.FormValue("state")
-	city := r.FormValue("city")
-	fmt.Println("State:", state)
-	fmt.Println("City:", city)
 	shelterURL := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
 	foodURL := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
-
+	fmt.Println(foodURL)
 	// Create a new buffered writer
 	buf := bufio.NewWriter(w)
 	defer buf.Flush()
@@ -107,6 +108,22 @@ func resourcesPage(w http.ResponseWriter, r *http.Request) {
 	} 
 }
 
+
+func informationHandler(w http.ResponseWriter, r *http.Request) {
+	// Check if state and city values have already been stored
+	if state == "" || city == "" {
+		// If not, extract the values from the request
+		state = r.FormValue("state")
+		city = r.FormValue("city")
+		fmt.Println("State:", state)
+		fmt.Println("City:", city)
+	}
+
+	// Pass on the stored or extracted values to the resourcesPage function
+	resourcesPage(w, r, state, city)
+}
+
+
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -122,7 +139,9 @@ func main() {
 		http.ServeFile(w, r, "./templates/resources.html")
 	})
 
-	http.HandleFunc("/information/", resourcesPage)
+	http.HandleFunc("/information/", func(w http.ResponseWriter, r *http.Request) {
+		informationHandler(w, r)
+	})
 
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
