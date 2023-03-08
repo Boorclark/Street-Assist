@@ -17,8 +17,16 @@ type Shelter struct {
 	SeeMore string
 }
 
+type FoodPantry struct {
+	Image		string
+	Name		string
+	Description	string
+	SeeMore		string
+}
+
+
 var shelters []Shelter
-func informationPage(w http.ResponseWriter, r *http.Request) {
+func sheltersPage(w http.ResponseWriter, r *http.Request) {
 	state := r.FormValue("state")
 	city := r.FormValue("city")
 	url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
@@ -73,6 +81,63 @@ func informationPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+var foodPantries []FoodPantry
+func foodPage(w http.ResponseWriter, r *http.Request) {
+	state := r.FormValue("state")
+	city := r.FormValue("city")
+	url := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
+	fmt.Println("State:", state)
+	fmt.Println("City:", city)
+
+	// Create a new buffered writer
+	buf := bufio.NewWriter(w)
+	defer buf.Flush()
+
+	// Create a new Collector
+	c := colly.NewCollector(
+		colly.AllowedDomains("https://www.foodpantries.org"),
+	)
+
+	// OnHTML callback for each shelter
+	c.OnHTML("div.layout_post_2", func(e *colly.HTMLElement) {
+		// Create a new Shelter instance and set its fields
+		foodPantry := FoodPantry{
+			Image:       e.ChildAttr("img", "src"),
+			Name:        e.ChildText("h2 a"),
+			Description: e.ChildText("div p"),
+			SeeMore:     e.ChildAttr("a[href*=li]", "href"),
+		}		
+
+		// Append the pantry to the list
+		foodPantries = append(foodPantries, foodPantry)
+	})
+
+	// OnError callback to handle errors
+	c.OnError(func(_ *colly.Response, err error) {
+		log.Printf("Error scraping: %s", err.Error())
+	})
+
+	// OnScraped callback to execute once the scraping is done
+	c.OnScraped(func(_ *colly.Response) {
+		// Parse the information template
+		tmpl, err := template.ParseFiles("templates/information.html")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Generate the HTML and write it to the buffered writer
+		if err := tmpl.Execute(buf, foodPantries); err != nil {
+			log.Fatal(err)
+		}
+	})
+
+	// Start the scraping process
+	if err := c.Visit(url); err != nil {
+		log.Printf("Error visiting %s: %s", url, err.Error())
+	}
+}
+
+
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +154,7 @@ func main() {
 		http.ServeFile(w, r, "./templates/resources.html")
 	})
 
-	http.HandleFunc("/information.html", informationPage)
+	http.HandleFunc("/information.html", sheltersPage)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
