@@ -30,9 +30,6 @@ func sheltersPage(w http.ResponseWriter, r *http.Request) {
 	state := r.FormValue("state")
 	city := r.FormValue("city")
 	url := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
-	fmt.Println(r.Form)
-	fmt.Println("State:", state)
-	fmt.Println("City:", city)
 
 	// Create a new buffered writer
 	buf := bufio.NewWriter(w)
@@ -89,7 +86,6 @@ func foodPage(w http.ResponseWriter, r *http.Request) {
 	url := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
 	fmt.Println("State:", state)
 	fmt.Println("City:", city)
-	fmt.Println("URL:", url)
 
 	// Create a new buffered writer
 	buf := bufio.NewWriter(w)
