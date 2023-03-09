@@ -33,8 +33,25 @@
 		body {
           background-color: #e0e0e0;
         }
+		.back-button {
+		align-self: flex-end;
+		margin-top: auto;
+		position: fixed;
+		bottom: 20px;
+		left: 20px;
+		font-size: 1.2rem;
+		padding: 10px 10px;
+		z-index: 1000;
+		width: 10%;
+		}
+
+		.back-button i {
+		margin-right: 5px;
+		}
+
 	</style>
 	<body>
+		<a href="/resources.html" class="btn btn-primary back-button">Back</a>
 		<div class="container">
 			<div class="row">
 				{{range .}}
