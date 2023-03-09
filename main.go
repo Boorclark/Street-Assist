@@ -124,7 +124,6 @@ func informationHandler(w http.ResponseWriter, r *http.Request) {
 	resourcesPage(w, r, state, city)
 }
 
-
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -138,6 +137,10 @@ func main() {
 
 	http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./templates/resources.html")
+	})
+
+	http.HandleFunc("/emergency-services", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./templates/emergency.html")
 	})
 
 	http.HandleFunc("/information/", func(w http.ResponseWriter, r *http.Request) {
