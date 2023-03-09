@@ -32,6 +32,8 @@ var (
 )
 
 func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city string) {
+	shelters = make([]Shelter, 0)
+	foodPantries = make([]FoodPantry, 0)
 	path := r.URL.Path
 	shelterURL := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
 	foodURL := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
