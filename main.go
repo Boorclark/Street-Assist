@@ -62,9 +62,9 @@ func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city st
 	c.OnHTML(".blog-list h2", func(e *colly.HTMLElement) {
 		// Create a new FoodPantry instance and set its fields
 		foodPantry := FoodPantry{
-			Image:       e.ChildAttr("img", "src"),
+			Image: e.DOM.Next().Next().AddBack().AttrOr("src", ""),
 			Name:        e.ChildText("h2 a"),
-			Description: e.DOM.Next().Next().Next().Next().Text(),
+			Description: e.DOM.Next().Next().Next().Text(),
 			SeeMore:     e.ChildAttr("a", "href"),
 		}
 		// Append the FoodPantry to the list
