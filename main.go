@@ -35,7 +35,7 @@ func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city st
 	path := r.URL.Path
 	shelterURL := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
 	foodURL := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
-	fmt.Println(foodURL)
+
 	// Create a new buffered writer
 	buf := bufio.NewWriter(w)
 	defer buf.Flush()
@@ -45,31 +45,30 @@ func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city st
 		colly.AllowedDomains("www.homelessshelterdirectory.org", "www.foodpantries.org"),
 	)
 
-	// OnHTML callback for each shelter or pantry
+	// OnHTML callback for shelter information
 	c.OnHTML("div.layout_post_2", func(e *colly.HTMLElement) {
-		if path == "/information/shelters" {
-			// Create a new Shelter instance and set its fields
-			shelter := Shelter{
-				Image:       e.ChildAttr("img", "src"),
-				Name:        e.ChildText("h4"),
-				Description: e.ChildText("p"),
-				SeeMore:     e.ChildAttr("a.btn_red", "href"),
-			}
-			// Append the Shelter to the list
-			shelters = append(shelters, shelter)
-		} else {
-			// Create a new FoodPantry instance and set its fields
-			foodPantry := FoodPantry{
-				Image:       e.ChildAttr("img", "src"),
-				Name:        e.ChildText("h2 a"),
-				Description: e.ChildText("div p"),
-				SeeMore:     e.ChildAttr("a[href*=li]", "href"),
-			}
-			// Append the FoodPantry to the list
-			foodPantries = append(foodPantries, foodPantry)
+		// Create a new Shelter instance and set its fields
+		shelter := Shelter{
+			Image:       e.ChildAttr("img", "src"),
+			Name:        e.ChildText("h4"),
+			Description: e.ChildText("p"),
+			SeeMore:     e.ChildAttr("a.btn_red", "href"),
 		}
+		// Append the Shelter to the list
+		shelters = append(shelters, shelter)
 	})
 
+	// OnHTML callback for food pantry information
+	c.OnHTML(".blog-list h2", func(e *colly.HTMLElement) {
+		// Create a new FoodPantry instance and set its fields
+		foodPantry := FoodPantry{
+			Image:       e.ChildAttr("img", "src"),
+			Name:        e.ChildText("h2 a"),
+			Description: e.DOM.Next().Next().Next().Next().Text(),
+			SeeMore:     e.ChildAttr("a", "href"),
+		}
+		// Append the FoodPantry to the list
+		foodPantries = append(foodPantries, foodPantry)})
 	// OnError callback to handle errors
 	c.OnError(func(_ *colly.Response, err error) {
 		log.Printf("Error scraping: %s", err.Error())
