@@ -7,6 +7,26 @@
       body {
         background-color: #e0e0e0;
       }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("static/images/Background.png");
+        background-size: cover;
+        filter: blur(5px);
+        z-index: -1;
+      }
+      .card {
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e0e0;
+      }
       .container {
         display: flex;
         flex-direction: column;
@@ -20,7 +40,7 @@
       }
       .form-group {
         margin-top: 1px;
-        margin-bottom: 200px;
+        margin-bottom: 30px;
       }
       #submitButton {
         margin-top: 20px;
@@ -31,6 +51,7 @@
   </head>
   <body>
     <div class="container">
+      <div class="card">
       <div class="text-center mb-5">
         <img src="static\images\Street_Assist.png" alt="logo" class="img-fluid">
       </div>
@@ -104,7 +125,8 @@
           </div>
         </div>
       </form>
-    </div> 
+    </div>
+  </div> 
     <script type="text/javascript" src="../static/home.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   </body>
