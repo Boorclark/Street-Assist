@@ -40,6 +40,22 @@
         background-color: #042d62;
         border-color: #042d62;
       }
+      .back-button {
+			align-self: flex-end;
+			margin-top: auto;
+			position: fixed;
+			bottom: 20px;
+			left: 20px;
+			font-size: 1.2rem;
+			z-index: 1000;
+			width: 150px;
+        }
+		.back-button:hover {
+			background-color: #d0d0d0;
+		}
+		.back-button i {
+			margin-right: 5px;
+		}
     </style>
   </head>
     <div class="container mt-5">
@@ -53,5 +69,6 @@
       </div>
     </div>
   </div>
+    <a href="/" class="btn btn-primary back-button">← Back</a>
     <script type="text/javascript" src="../static/resources.js"></script>
 </html>
