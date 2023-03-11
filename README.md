@@ -5,7 +5,7 @@
 ---
 ## Purpose
 
-Street Assist is an application designed to assist the houseless population by providing them with a comprehensive list of resources such as homeless shelters, food banks, and other necessities. Users can input their current location and the app will display a list of nearby facilities and services, including the address and contact information for each resource. Street Assist aims to make it easier for people experiencing homelessness to access the support they need, all in one convenient place. With this application, the houseless population can find the nearest shelter, food bank, and other resources more easily, helping them to improve their living conditions and move towards stability.
+Street Assist is an application designed to assist the houseless population by providing them with a comprehensive list of resources such as homeless shelters, food banks, and other necessities. Users can input their current location and the app will display a list of nearby facilities and services. Street Assist aims to make it easier for people experiencing homelessness to access the support they need, all in one convenient place. With this application, the houseless population can find the nearest shelter, food bank, and other resources more easily, helping them to improve their living conditions and move towards stability.
 
 ---
 ## References
@@ -29,6 +29,10 @@ Street Assist is an application designed to assist the houseless population by p
 16. [FMT Package](https://pkg.go.dev/fmt)
 17. [Serving Files/HTTP Servers](https://medium.com/rungo/beginners-guide-to-serving-files-using-http-servers-in-go-4e542e628eac)
 18. [Understanding StripPrefix()](https://forum.golangbridge.org/t/need-help-about-http-fileserver-http-dir-http-stripprefix/24448)
+19. [Bufio Go Package](https://pkg.go.dev/bufio)
+20. [Golang Slices](https://www.w3schools.com/go/go_slices.php)
+21. [Golang Log Package](https://pkg.go.dev/log)
+22. [Open AI for Diagnosing Errors](https://chat.openai.com/)
 
 ---
 Berea College - CSC 420<br>
