@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"html/template"
-	"log"
-	"net/http"
+	"bufio"         // Provides buffered I/O operations
+	"fmt"           // Provides formatted I/O operations
+	"html/template" // Provides tools for rendering HTML templates
+	"log"           // Provides logging functions
+	"net/http"      // Provides HTTP client and server implementations
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly" // Scraping framework for Go
 )
 
 type Shelter struct {
@@ -24,21 +24,26 @@ type FoodPantry struct {
 	SeeMore		string
 }
 
-var shelters []Shelter
-var foodPantries []FoodPantry
 var (
-	state string
-	city  string
+	shelters     []Shelter // Slice of shelter stuct
+	foodPantries []FoodPantry // Slice of FoodPantry struct
+	state        string
+	city         string
 )
 
 func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city string) {
-	shelters = make([]Shelter, 0)
+	// Creates a empty slice of shelter and food pantry
+	shelters = make([]Shelter, 0)  
 	foodPantries = make([]FoodPantry, 0)
-	path := r.URL.Path
-	shelterURL := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city)
+
+	// Extracts HTTP request path (/information/shelters, /information/food)
+	path := r.URL.Path 
+
+	// Formats and returns URL strings
+	shelterURL := fmt.Sprintf("https://www.homelessshelterdirectory.org/city/%s-%s", state, city) 
 	foodURL := fmt.Sprintf("https://www.foodpantries.org/ci/%s-%s", state, city)
 
-	// Create a new buffered writer
+	// Create a new buffered writer. This reduces the number of system calls.
 	buf := bufio.NewWriter(w)
 	defer buf.Flush()
 
@@ -113,7 +118,6 @@ func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city st
 func informationHandler(w http.ResponseWriter, r *http.Request) {
 	// Check if state and city values have already been stored
 	if state == "" || city == "" {
-		// If not, extract the values from the request
 		state = r.FormValue("state")
 		city = r.FormValue("city")
 		fmt.Println("State:", state)
@@ -125,6 +129,7 @@ func informationHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// Handler functions for URL's
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
@@ -147,6 +152,6 @@ func main() {
 		informationHandler(w, r)
 	})
 
-
+	// Start the web server
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
