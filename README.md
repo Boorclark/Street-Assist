@@ -8,6 +8,18 @@
 Street Assist is an application designed to assist the houseless population by providing them with a comprehensive list of resources such as homeless shelters, food banks, and other necessities. Users can input their current location and the app will display a list of nearby facilities and services. Street Assist aims to make it easier for people experiencing homelessness to access the support they need, all in one convenient place. With this application, the houseless population can find the nearest shelter, food bank, and other resources more easily, helping them to improve their living conditions and move towards stability.
 
 ---
+## Usage and Instructions
+1. Clone the repository to your local machine using Git, and open it in your preferred Integrated Development Environment (IDE).
+
+2. Open the terminal or command prompt, navigate to the root directory of the project, and enter the following command: `go run main.go`.
+
+3. Once the application is running, open your web browser and navigate to the following address: `http://localhost:8080`.
+
+4. Enter your city and state in the input fields provided, and click the "Submit" button to see the resources for your location.
+
+Note: This application requires an active internet connection to retrieve the resources available in your area. 
+
+---
 ## References
 
 1. [Bootstrap Documentation](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
