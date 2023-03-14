@@ -6,6 +6,7 @@ import (
 	"html/template" // Provides tools for rendering HTML templates
 	"log"           // Provides logging functions
 	"net/http"      // Provides HTTP client and server implementations
+	"strings"       // Provides ability to manipulate strings
 
 	"github.com/gocolly/colly" // Scraping framework for Go
 )
@@ -122,6 +123,9 @@ func informationHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("State:", state)
 		fmt.Println("City:", city)
 	}
+
+	// Replace any whitespace in the city name with underscores
+    city = strings.ReplaceAll(city, " ", "_")
 
 	// Pass on the stored or extracted values to the resourcesPage function
 	resourcesPage(w, r, state, city)
