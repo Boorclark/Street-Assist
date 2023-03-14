@@ -92,7 +92,6 @@ func resourcesPage(w http.ResponseWriter, r *http.Request, state string, city st
 		// Generate the HTML and write it to the buffered writer
 		if path == "/information/shelters" {
 			if err := tmpl.Execute(buf, shelters); err != nil {
-				log.Fatal(err)
 			}
 		} else {
 			if err := tmpl.Execute(buf, foodPantries); err != nil {
@@ -129,29 +128,29 @@ func informationHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// Handler functions for URL's
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
-			http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
-			return
-		}
-		http.ServeFile(w, r, "./templates/home.html")
-	})
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+    // Handler functions for URL's
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == "POST" {
+            http.Redirect(w, r, "/resources.html", http.StatusSeeOther)
+            return
+        }
+        http.ServeFile(w, r, "./templates/home.html")
+    })
+    fs := http.FileServer(http.Dir("static"))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./templates/resources.html")
-	})
+    http.HandleFunc("/resources.html", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./templates/resources.html")
+    })
 
-	http.HandleFunc("/emergency-services", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./templates/emergency.html")
-	})
+    http.HandleFunc("/emergency-services", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "./templates/emergency.html")
+    })
 
-	http.HandleFunc("/information/", func(w http.ResponseWriter, r *http.Request) {
-		informationHandler(w, r)
-	})
+    http.HandleFunc("/information/", func(w http.ResponseWriter, r *http.Request) {
+        informationHandler(w, r)
+    })
 
-	// Start the web server
-	log.Fatal(http.ListenAndServe(":8080", nil))
+    // Start the web server
+    log.Fatal(http.ListenAndServe(":8080", nil))
 }
