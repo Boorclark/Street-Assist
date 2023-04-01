@@ -47,6 +47,3 @@ Note: This application requires an active internet connection to retrieve the re
 22. [Open AI for Diagnosing Errors](https://chat.openai.com/)
 23. [Go Strings Library](https://pkg.go.dev/strings)
 
----
-Berea College - CSC 420<br>
-Prof. Deanna Wilborne, MCS<sup>2</sup>, CCP <br>
